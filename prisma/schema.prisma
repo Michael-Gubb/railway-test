@@ -13,8 +13,8 @@ generator client {
 model Todo {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
-  text      String
-  completed Boolean
-  createdBy String
-  creatorId String
+  text      String @default("")
+  completed Boolean @default(false)
+  createdBy String @default("")
+  creatorId String @default("")
 }
