@@ -2,13 +2,13 @@ import useSWR, { mutate } from "swr";
 import { Todo } from "./types";
 
 const todoPath = "/api/todos";
-
-export const useTodos = () => useSWR<Todo[]>(todoPath);
+const fetcher = url => fetch(url).then(r => r.json())
+export const useTodos = () => useSWR<Todo[]>(todoPath,fetcher);
 
 export const createTodo = async (text: string) => {
   mutate(
     todoPath,
-    todos => [{ text, completed: false, id: "new-todo" }, ...todos],
+    (todos:Todo[]) => [{ text,completed: false, id: "new-todo" }, ...todos],
     false,
   );
   await fetch(todoPath, {
@@ -22,8 +22,8 @@ export const createTodo = async (text: string) => {
 export const toggleTodo = async (todo: Todo) => {
   mutate(
     todoPath,
-    todos =>
-      todos.map(t =>
+    (todos:Todo[]) =>
+      todos.map((t: Todo) =>
         t.id === todo.id ? { ...todo, completed: !t.completed } : t,
       ),
     false,
