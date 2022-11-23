@@ -2,7 +2,7 @@ import useSWR, { mutate } from "swr";
 import { Todo } from "./types";
 
 const todoPath = "/api/todos";
-const fetcher = url => fetch(url).then(r => r.json())
+const fetcher = (url: string) => fetch(url).then(r => r.json())
 export const useTodos = () => useSWR<Todo[]>(todoPath,fetcher);
 
 export const createTodo = async (text: string) => {
@@ -36,7 +36,7 @@ export const toggleTodo = async (todo: Todo) => {
 };
 
 export const deleteTodo = async (id: string) => {
-  mutate(todoPath, todos => todos.filter(t => t.id !== id), false);
+  mutate(todoPath, (todos:Todo[]) => todos.filter((t:Todo) => t.id !== id), false);
   await fetch(`${todoPath}?todoId=${id}`, { method: "DELETE" });
   mutate(todoPath);
 };
