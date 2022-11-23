@@ -15,4 +15,6 @@ model Todo {
   createdAt DateTime @default(now())
   text      String
   completed Boolean
+  createdBy String
+  creatorId String
 }
